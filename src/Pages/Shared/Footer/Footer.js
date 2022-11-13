@@ -5,7 +5,8 @@ import footer from '../../../Assets/images/footer.png'
 const Footer = () => {
   return (
     <div className="px-5">
-      <footer style={{ background: `url(${footer})` }} className="footer py-10 px-20 text-accent">
+      <footer style={{ background: `url(${footer})`,
+      backgroundSize: 'cover' }} className="footer py-10 px-20 text-accent">
   <div>
     <span className="footer-title">Services</span> 
     <Link className="link link-hover">Branding</Link>

@@ -2,8 +2,6 @@
 
 -instal Tailwind and Daisy UI
 -install react router dom
--Layout
--Routes
--Pages
-
+-npm install react-day-picker date-fns
+-import 'react-day-picker/dist/style.css';(index.s)
 
