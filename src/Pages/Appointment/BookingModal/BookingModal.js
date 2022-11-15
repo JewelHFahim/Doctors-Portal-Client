@@ -1,16 +1,22 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../../Context/AuthProvider";
 
 const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
+  const { user } = useContext(AuthContext);
+
   const { name, slots } = treatment;
   const date = format(selectedDate, "PP");
 
-  const handleBooking = event =>{
+  const handleBooking = (event) => {
     event.preventDefault();
     const form = event.target;
-    const name = form.name.value;
+
+    let name;
+    user?.displayeName ? (name = user?.displayName) : ( name = form.name.value)
     const slot = form.slot.value;
-    const email = form.email.value;
+    let email;
+    user?.email ? (email = user.email) : (email = form.email.value);
     const phone = form.phone.value;
     console.log(date, slot, name, email, phone);
 
@@ -20,12 +26,11 @@ const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
       patient: name,
       slot,
       email,
-      phone
-    }
+      phone,
+    };
     console.log(booking);
-    setTreatment(null)
-
-  }
+    setTreatment(null);
+  };
 
   return (
     <div>
@@ -39,30 +44,35 @@ const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
             ✕
           </label>
           <h3 className="text-lg font-bold">{name}</h3>
-          <form onSubmit={handleBooking} className="grid grid-cols-1 gap-3 mt-8">
+          <form
+            onSubmit={handleBooking}
+            className="grid grid-cols-1 gap-3 mt-8"
+          >
             <input value={date} disabled className="input text-center w-full" />
-
-            <select name = "slot" className="select select-bordered w-full">
-                {
-                    slots.map((slot, i) => <option key ={i} value={slot} >{slot}</option>)
-                }
+            <select name="slot" className="select select-bordered w-full">
+              {slots.map((slot, i) => (
+                <option key={i} value={slot}>
+                  {slot}
+                </option>
+              ))}
             </select>
-
             <input
-            name = "name"
+              name="name"
               type="text"
               placeholder="Your Name"
               className="input w-full input-bordered"
+              defaultValue={user?.displayName}
             />
             <input
-            name = "email"
+              name="email"
               type="email"
               placeholder="Your Email Address"
               className="input w-full input-bordered"
               required
+              defaultValue={user?.email}
             />
             <input
-            name = "phone"
+              name="phone"
               type="text"
               placeholder="Your Phone Number"
               className="input w-full input-bordered"
